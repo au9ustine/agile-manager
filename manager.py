@@ -1,11 +1,9 @@
-#!/usr/bin python
+#!/usr/bin/python
 
 # Copyright (c) 2015 Copyright Shao Tian-Chen (Austin) All Rights Reserved.
 """Sprint Date Manager
 A program to manage sprint date
 """
-
-from __future__ import (absolute_import, division, print_function)
 
 class Sprint(object):
     """Sprint entity
@@ -43,7 +41,7 @@ def get_sprint(given_date):
     """Given any date, return the Sprint containing that date
     Given other value or current date, provide current Sprint
     """
-    pass
+    return 1
 
 def formulize(formulize_fn, raw_data):
     """Formulize data or data string to align corresponding data"""
@@ -56,3 +54,9 @@ def formulize_start_date(raw_date):
 def formulize_length(raw_length):
     """Formulized Sprint length"""
     pass
+
+def main():
+    print('Hello, World')
+
+if __name__ == "__main__":
+    main()
