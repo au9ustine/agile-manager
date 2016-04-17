@@ -14,4 +14,4 @@ ADD . /app
 # ENV NAME World
 
 # Define our command to be run when launching the container
-CMD ["python", "manager.py"]
+CMD ["nosetests"]
