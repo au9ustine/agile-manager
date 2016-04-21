@@ -1,9 +1,13 @@
 #!/usr/bin/python
 
+import click
+
 # Copyright (c) 2015 Copyright Shao Tian-Chen (Austin) All Rights Reserved.
 """Sprint Date Manager
 A program to manage sprint date
 """
+
+VERSION = (1, 0, 0)
 
 class Sprint(object):
     """Sprint entity
@@ -55,8 +59,21 @@ def formulize_length(raw_length):
     """Formulized Sprint length"""
     pass
 
-def main():
-    print('Hello, World')
+@click.group()
+def cli():
+    pass
+
+@cli.command()
+def initdb():
+    click.echo('Initialized the database')
+
+@cli.command()
+def dropdb():
+    click.echo('Dropped the database')
+
+@click.command()
+def hello():
+    click.echo('Hello, World!')
 
 if __name__ == "__main__":
-    main()
+    cli()
