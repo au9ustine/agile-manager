@@ -1,4 +1,4 @@
-FROM daocloud.io/debian:jessie
+FROM debian:jessie
 MAINTAINER au9ustine
 
 RUN cp -v /etc/apt/sources.list /etc/apt/sources.list.bak
