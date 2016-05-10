@@ -2,10 +2,10 @@
 
 from manager import Sprint
 
-def test_manager_sprint_init():
-    mgr = Sprint('2016-01-01', 2)
-    assert mgr is not None
-
-def test_manager_get_sprint():
-    from manager import get_sprint
-    assert get_sprint('2001') == 1
+def test_manager_get_date():
+    mgr = Sprint()
+    sprint_62_start_date, sprint_62_end_date = mgr.get_date(62)
+    sprint_62_start_date_val = sprint_62_start_date.isoformat()
+    assert sprint_62_start_date_val == '2016-05-07'
+    sprint_62_end_date_val = sprint_62_end_date.isoformat()
+    assert sprint_62_end_date_val == '2016-05-20'
