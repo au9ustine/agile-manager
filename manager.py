@@ -1,15 +1,22 @@
 #!/usr/bin/python
 
-import datetime
+"""Sprint Date Manager
+A program to manage sprint date
+
+Copyright (c) 2015 Copyright Shao Tian-Chen (Austin) All Rights Reserved.
+"""
+
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from datetime import date
 from itertools import count
 from itertools import islice
 import click
+import datetime
 import logging
-
-# Copyright (c) 2015 Copyright Shao Tian-Chen (Austin) All Rights Reserved.
-"""Sprint Date Manager
-A program to manage sprint date
-"""
+import re
+import sys
 
 VERSION = (1, 0, 0)
 
@@ -29,10 +36,11 @@ class Sprint(object):
     def get_date(self, sprint_num):
         """Given sprint number n and function f, when f(x), then output sprint date"""
         assert isinstance(sprint_num, int)
-        assert sprint_num >= 0
+        if sprint_num < 0:
+            sprint_num = 0
         default_case = (0, self.GENESIS_DAY, self.GENESIS_DAY + datetime.timedelta(days=self.SPRINT_LEN.days-1))
         i, start_date, end_date = next(islice(self.get_sprints(), sprint_num, None), default_case)
-        return (start_date, end_date)
+        return (i, start_date, end_date)
 
     def get_sprints(self):
         """Given genesis dayx, sprint len l, function f, when f(x, l), output lazy evalutaion of all sprints"""
@@ -42,6 +50,8 @@ class Sprint(object):
         ) for i in count())
 
     def get_sprint(self, any_date):
+        if (any_date - self.GENESIS_DAY).days < 0:
+            any_date = self.GENESIS_DAY
         for i, start_date, end_date in self.get_sprints():
             if abs((any_date - start_date).days) < self.SPRINT_LEN.days:
                 return (i, start_date, end_date)
@@ -68,18 +78,27 @@ class Sprint(object):
         _, end_date = self.get_sprint_dates(any_date)
         return end_date
 
-g_instance = None
-
-@click.group()
-@click.option("genesis-day")
-@click.option("sprint-len")
-def cli(genesis_day, sprint_len):
-    g_instance = Sprint()
-
-@cli.command()
-@click.argument('image_name')
-def hello():
-    click.echo('Hello, World!')
-
 if __name__ == "__main__":
-    cli()
+    if len(sys.argv) < 2:
+        s = Sprint()
+        a, b, c  = s.get_sprint(date.today())
+        print((a, str(b), str(c)))
+    elif len(sys.argv) == 2:
+        s = Sprint()
+        x = sys.argv[1]
+        pattern = r'^(\d+)-(\d{2})-(\d{2})$'
+        if re.match(r'^[-]?\d+$', x):
+            a, b, c = s.get_date(int(x))
+            print((a, str(b), str(c)))
+        elif re.match(pattern, x):
+            yyyy, mm, dd = re.findall(pattern, x)[0]
+            try:
+                x_date = date(int(yyyy), int(mm), int(dd))
+                a, b, c = s.get_sprint(x_date)
+                print((a, str(b), str(c)))
+            except:
+                print('''See, you lost a date ... ''')
+        else:
+            print('''Hey, you need to know how to count or date ;) ''')
+    else:
+        print('''Hey, you need to know how to count or date ;) ''')
