@@ -9,7 +9,7 @@ LOG.setLevel(logging.DEBUG)
 
 def test_manager_get_date():
     mgr = Sprint()
-    sprint_62_start_date, sprint_62_end_date = mgr.get_date(62)
+    i, sprint_62_start_date, sprint_62_end_date = mgr.get_date(62)
     sprint_62_start_date_val = sprint_62_start_date.isoformat()
     LOG.debug('sprint_62_start_date_val: %s', sprint_62_start_date_val)
     assert sprint_62_start_date_val == '2016-05-07'

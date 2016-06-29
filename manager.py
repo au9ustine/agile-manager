@@ -12,7 +12,6 @@ from __future__ import print_function
 from datetime import date
 from itertools import count
 from itertools import islice
-import click
 import datetime
 import logging
 import re
