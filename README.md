@@ -1,6 +1,8 @@
-# sprint-date-manager
+# Agile Manager
 
-[![Build Status](https://travis-ci.org/au9ustine/sprint-date-manager.svg?branch=master)](https://travis-ci.org/au9ustine/sprint-date-manager)
+[![Build Status](https://travis-ci.org/au9ustine/agile-manager.svg?branch=master)](https://travis-ci.org/au9ustine/agile-manager)
+
+### Sprints
 
 ```
 (62, (2016,  5,  7), (2016,  5, 20))
