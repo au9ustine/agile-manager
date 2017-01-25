@@ -1,7 +1,5 @@
 # Agile Manager
 
-[![Build Status](https://travis-ci.org/au9ustine/agile-manager.svg?branch=master)](https://travis-ci.org/au9ustine/agile-manager)
-
 Installation
 
 ```
