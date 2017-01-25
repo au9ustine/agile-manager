@@ -1,6 +1,8 @@
 # Agile Manager
 
-Installation
+[![CircleCI](https://circleci.com/gh/au9ustine/manager.svg?style=svg)](https://circleci.com/gh/au9ustine/manager)
+
+## Development Version
 
 ```
 virtualenv --python=python3 env
@@ -9,7 +11,11 @@ pip install -r requirements.txt
 deactivate
 ```
 
-Usage
+## Production Version
+
+It's based on Docker. See Circle CI for details.
+
+## Usage
 
 ```
 ./mgr 80
