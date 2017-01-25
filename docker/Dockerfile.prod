@@ -1,0 +1,17 @@
+FROM python:3.5-alpine
+MAINTAINER au9ustine
+
+RUN \
+  mkdir -pv /var/au9ustine/manager && \
+  cd /var/au9ustine/manager
+
+ADD requirements.txt /var/au9ustine/manager
+WORKDIR /var/au9ustine/manager
+
+RUN \
+  pip install -r requirements.txt
+
+# Copy our code from the current folder to /app inside the container
+ADD . /var/au9ustine/manager
+
+CMD ["python", "/var/au9ustine/manager/manager.py"]
