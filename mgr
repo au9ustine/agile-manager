@@ -1,4 +1,3 @@
 #!/bin/bash
-source env/bin/activate
-python ./manager.py $@
-deactivate
+
+docker run --rm au9ustine/manager python /var/au9ustine/manager/manager.py $@
