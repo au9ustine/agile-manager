@@ -19,6 +19,7 @@ import sys
 
 VERSION = (1, 0, 0)
 
+
 class Sprint(object):
     """Sprint entity
     """
@@ -77,10 +78,11 @@ class Sprint(object):
         _, end_date = self.get_sprint_dates(any_date)
         return end_date
 
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         s = Sprint()
-        a, b, c  = s.get_sprint(date.today())
+        a, b, c = s.get_sprint(date.today())
         print((a, str(b), str(c)))
     elif len(sys.argv) == 2:
         s = Sprint()
