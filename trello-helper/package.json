@@ -1,0 +1,34 @@
+{
+  "name": "trello-helper",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "t1anchen",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "serve": "npx webpack-dev-server -d"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.5.1",
+    "@material-ui/icons": "^4.5.1",
+    "clsx": "^1.0.4",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.9",
+    "@types/react-dom": "^16.9.2",
+    "@typescript-eslint/eslint-plugin": "^2.4.0",
+    "@typescript-eslint/parser": "^2.4.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "eslint": "^6.5.1",
+    "html-webpack-plugin": "^3.2.0",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.0.0",
+    "ts-loader": "^6.2.0",
+    "typescript": "^3.6.4",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.8.2"
+  }
+}
