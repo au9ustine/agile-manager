@@ -1,0 +1,149 @@
+#!/usr/bin/env python3
+
+import requests
+import json
+import argparse
+import os
+from datetime import date
+
+
+TRELLO_API_ENDPOINT_TMPL = 'https://api.trello.com/1'
+
+
+# TITLES_OF_LISTS = [
+#     "TODO in Sprint 132 (0112-0125)",
+#     "TODO in Sprint 133 (0126-0208)",
+#     "TODO in Sprint 134 (0209-0222)",
+#     "TODO in Sprint 135 (0223-0308)",
+#     "TODO in Sprint 136 (0309-0322)",
+#     "TODO in Sprint 137 (0323-0405)",
+#     "TODO in Sprint 138 (0406-0419)",
+#     "TODO in Sprint 139 (0420-0503)",
+#     "TODO in Sprint 140 (0504-0517)",
+#     "TODO in Sprint 141 (0518-0531)",
+#     "TODO in Sprint 142 (0601-0614)",
+#     "TODO in Sprint 143 (0615-0628)",
+#     "TODO in Sprint 144 (0629-0712)",
+#     "TODO in Sprint 145 (0713-0726)",
+#     "TODO in Sprint 146 (0727-0809)",
+#     "TODO in Sprint 147 (0810-0823)",
+#     "TODO in Sprint 148 (0824-0906)",
+#     "TODO in Sprint 149 (0907-0920)",
+#     "TODO in Sprint 150 (0921-1004)",
+#     "TODO in Sprint 151 (1005-1018)",
+#     "TODO in Sprint 152 (1019-1101)",
+#     "TODO in Sprint 153 (1102-1115)",
+#     "TODO in Sprint 154 (1116-1129)",
+#     "TODO in Sprint 155 (1130-1213)",
+#     "TODO in Sprint 156 (1214-1227)",
+#     "TODO in Sprint 157 (1228-0110)"
+# ]
+
+
+class CardList(object):
+    def __init__(self, context):
+        self.name = 'TODO'
+        self.pos = 'bottom'
+        self.board = ''
+        self.context = context
+        self.prefixUrl = '/'.join([TRELLO_API_ENDPOINT_TMPL, 'lists'])
+
+    def setName(self, name):
+        self.name = name
+        return self
+
+    def setBoard(self, boardId):
+        self.board = boardId
+        return self
+
+    def setPosition(self, pos):
+        if type(pos) is int:
+            self.pos = '{}'.format(int)
+        elif type(pos) is str:
+            self.pos = pos
+        return self
+
+    def build(self):
+        params = {
+            **self.toDict(),
+            **self.context['auth']
+        }
+        if self.context['commit']:
+            res = requests.post(self.prefixUrl, params)
+            print(res.json())
+        else:
+            print(json.dumps({
+                'method': 'POST',
+                'prefixUrl': self.prefixUrl,
+                'context': params
+            }))
+
+    def toDict(self):
+        return {
+            'name': self.name,
+            'idBoard': self.board,
+            'pos': self.pos,
+        }
+
+    def __str__(self):
+        return self.name
+
+
+class Board(object):
+    def __init__(self, context):
+        self.boardId = '572ea919522f0bb27fb98d37'
+        self.lists = []
+        self.context = context
+
+    def addList(self, listName):
+        self.lists.append(CardList(
+            self.context
+        ).setBoard(
+            self.boardId
+        ).setName(listName))
+        return self
+
+    def addListFromWeeks(self, weekNumberList):
+        for week in weekNumberList:
+            listName = 'TODO in {}-W{:02}'.format(
+                self.context['year'], week
+            )
+            self.addList(listName)
+        return self
+
+    def build(self):
+        for cardList in self.lists:
+            cardList.build()
+
+
+class Member(object):
+    def __init__(self, context):
+        self.context = context
+        self.boards = []
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--key', default=os.environ.get('TRELLO_KEY', ''))
+    parser.add_argument('--token', default=os.environ.get('TRELLO_TOKEN', ''))
+    parser.add_argument('--commit', action='store_true')
+    parser.add_argument('--year', default=str(date.today().year))
+    cli_args = parser.parse_args()
+
+    context = {
+        'auth': {
+            'key': cli_args.key,
+            'token': cli_args.token
+        },
+        'commit': cli_args.commit,
+        'year': cli_args.year
+    }
+
+    Board(context).addListFromWeeks(list(range(1, 54))).build()
+
+
+main()
+
+# References
+# - https://developers.trello.com/docs/api-introduction
+# - https://developers.trello.com/reference#boards-2
